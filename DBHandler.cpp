@@ -33,7 +33,7 @@ void DBHandler::createEmployeesTable() {
         work.exec(create_table_sql);
         work.commit();
         std::cout << "Table created" << std::endl;
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         std::cerr << "Error creating table: " << e.what() << std::endl;
         throw;
     }
@@ -51,7 +51,7 @@ void DBHandler::insertNewEmployee(const Employee& e) {
         work.commit();
 
         std::cout << "Employee " << e.getName() << " inserted" << std::endl;
-    } catch (const std::exception &ex) {
+    } catch (const std::exception& ex) {
         std::cerr << "Error creating new Employee: " << ex.what() << std::endl;
         throw;
     }
@@ -78,7 +78,7 @@ void DBHandler::getUnique(std::ostream& os) {
             os << e;
         }
 
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         std::cerr << "Error getting unique value: " << e.what() << std::endl;
     }
 }
@@ -107,7 +107,7 @@ void DBHandler::insertBatch(const std::vector<Employee>& employees) {
 
         std::cout << "Batch of " << employees.size() << " inserted" << std::endl;
 
-    } catch (std::exception &e) {
+    } catch (std::exception& e) {
         std::cerr << "Error inserting batch: " << e.what() << std::endl;
     }
 }
@@ -126,7 +126,7 @@ void DBHandler::getFiltered(std::ostream& os, const std::string& sex, const char
         os << "Found " << res.size() << " rows\n";
         os << "Time taken: " << elapsed.count() << " seconds\n";
 
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         std::cerr << "Error getting filtered values: " << e.what() << std::endl;
     }
 
@@ -142,7 +142,7 @@ void DBHandler::getFilteredOptimized(std::ostream& os, const std::string& sex, c
 
         getFiltered(os, sex, firstLetter);
 
-    } catch (const std::exception &e) {
+    } catch (const std::exception& e) {
         std::cerr << "Error getting filtered values: " << e.what() << std::endl;
     }
 
@@ -180,11 +180,12 @@ std::string DBHandler::initParser(const std::string& filename) {
 
 }
 
-inline void DBHandler::trim(std::string &s) {
+inline void DBHandler::trim(std::string& s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(),
         [](unsigned char ch) { return !std::isspace(ch); }));
 
     s.erase(std::find_if(s.rbegin(), s.rend(),
         [](unsigned char ch) { return !std::isspace(ch); }).base(), s.end());
 }
+
 
