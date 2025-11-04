@@ -8,11 +8,17 @@
 #include <iostream>
 #include <vector>
 #include <pqxx/pqxx>
+#include <unordered_map>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include <cctype>
 #include "Employee.h"
 
 class DBHandler {
 public:
     DBHandler(const std::string& dbName, const std::string& userName, const std::string& dbPassword, const std::string& dbHost, int dbPort);
+    DBHandler(const std::string& filename);
 
     void createEmployeesTable(); //mode 1
     void insertNewEmployee(const Employee&); //mode 2
@@ -25,14 +31,10 @@ public:
     ~DBHandler();
 
 private:
-    std::string dbName_;
-    std::string userName_;
-    std::string password_;
-    std::string hostName_;
-    int port_;
-
     pqxx::connection conn_;
 
+    static std::string initParser(const std::string& filename);
+    static inline void trim(std::string &s);
 };
 
 #endif //DBHANDLER_H

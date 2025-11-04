@@ -15,12 +15,13 @@ int main(const int argc, char* argv[]) {
         return -1;
     }
 
-    DBHandler db("postgres", "postgres", "admin", "127.0.0.1", 5432);
+    DBHandler db("../db_config.ini");
 
     switch (std::stoi(argv[1])) {
         case 1:
             db.createEmployeesTable();
             break;
+
         case 2: {
             if (argc != 5) {
                 std::cerr << "Usage: myApp 2 <FIO> <birthDate> <Male|Female>\n";
@@ -54,7 +55,7 @@ int main(const int argc, char* argv[]) {
         default:
             std::cerr << "Invalid mode" << std::endl;
             break;
-    }
+        }
 
     return 0;
     // TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.

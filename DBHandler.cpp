@@ -17,6 +17,9 @@ DBHandler::DBHandler(const std::string &dbName
     std::cout << "Connected to database" << std::endl;
 }
 
+DBHandler::DBHandler(const std::string& filename) : conn_(initParser(filename)) {
+    std::cout << "Connected to database" << std::endl;
+}
 
 void DBHandler::createEmployeesTable() {
     try {
@@ -148,3 +151,40 @@ void DBHandler::getFilteredOptimized(std::ostream& os, const std::string& sex, c
 DBHandler::~DBHandler() {
     if (conn_.is_open()) conn_.close();
 }
+
+std::string DBHandler::initParser(const std::string& filename) {
+
+    std::unordered_map<std::string, std::string> config;
+    std::ifstream file(filename);
+    std::string line = "";
+
+
+    while (std::getline(file, line)) {
+        if (line.empty() || line[0] == '[' || line[0] == '#') continue;
+
+        std::istringstream iss(line);
+        std::string value;
+
+        if (std::string key; std::getline(std::getline(iss, key, '='), value)) {
+            trim(key);
+            trim(value);
+            config[key] = value;
+        }
+    }
+
+    return "dbname=" + config["name"] +
+        " user=" + config["user"] +
+        " password=" + config["password"] +
+        " hostaddr=" + config["host"] +
+        " port=" + config["port"];
+
+}
+
+inline void DBHandler::trim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+        [](unsigned char ch) { return !std::isspace(ch); }));
+
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+        [](unsigned char ch) { return !std::isspace(ch); }).base(), s.end());
+}
+
