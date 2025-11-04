@@ -163,12 +163,18 @@ std::string DBHandler::initParser(const std::string& filename) {
         if (line.empty() || line[0] == '[' || line[0] == '#') continue;
 
         std::istringstream iss(line);
-        std::string value;
 
-        if (std::string key; std::getline(std::getline(iss, key, '='), value)) {
+        std::string key, value;
+        if (std::getline(std::getline(iss, key, '='), value)) {
+            size_t commentPos = value.find_first_of(";#");
+            if (commentPos != std::string::npos)
+                value = value.substr(0, commentPos);
+
             trim(key);
             trim(value);
-            config[key] = value;
+
+            if (!key.empty() && !value.empty())
+                config[key] = value;
         }
     }
 

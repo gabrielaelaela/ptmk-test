@@ -7,6 +7,8 @@
 std::vector<Employee> generateEmployees(int n = 10'000);
 std::vector<Employee> generateEmployeesByFirstLetter(char c = 'F', const std::string& = "Male", int n = 100);
 
+static const std::string filename = "db_config.ini";
+
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 int main(const int argc, char* argv[]) {
     // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the <b>lang</b> variable name to see how CLion can help you rename it.
@@ -15,7 +17,7 @@ int main(const int argc, char* argv[]) {
         return -1;
     }
 
-    DBHandler db("../db_config.ini");
+    DBHandler db(filename);
 
     switch (std::stoi(argv[1])) {
         case 1:
